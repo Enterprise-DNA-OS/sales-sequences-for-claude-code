@@ -13,7 +13,8 @@
     "demo": "node scripts/migrate.mjs && node scripts/seed.mjs",
     "view": "node scripts/view.mjs",
     "docs": "node scripts/docs.mjs",
-    "test": "node scripts/smoke.mjs"
+    "test": "node scripts/smoke.mjs",
+    "seq": "node scripts/sequences.mjs"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.8",

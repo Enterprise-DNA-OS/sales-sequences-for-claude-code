@@ -22,15 +22,44 @@ Fill this in once. A worker with context knows. A worker without it guesses.
 
 | When the operator asks for... | Use this |
 |---|---|
-| <!-- TODO(author): one row per slash command --> | `/...` |
+| what is due today / my queue | `/today` |
+| who replied / who is waiting on us | `/replies` |
+| what needs attention | `/attention` |
+| the Monday review | `/weekly-review` |
+| are we compliant / opt-outs / consent check | `/compliance` |
+| draft the next email for someone | `/draft-step` |
+| I sent it / I called them | `/complete-step` |
+| they replied / log a touch | `/log` |
+| they asked to stop | `/opt-out` |
+| record consent for someone | `/consent` |
+| add someone to a sequence | `/enrol` |
+| how are our sequences doing | `/sequences` |
+| one sequence in detail | `/sequence` |
+| write a new sequence | `/new-sequence` |
+| meetings and no-shows | `/meetings` |
+| book a meeting | `/book-meeting` |
+| rep activity / mailbox load | `/rep-activity` |
+| two reps on one account | `/collisions` |
+| accounts and quiet accounts | `/accounts` |
+| prospects list | `/prospects` |
+| one person's history | `/prospect` |
+| reply to someone | `/draft-reply` |
+| bring Outreach data in | `/import` |
+| take everything out | `/export` |
+| who changed what | `/activity` |
+| change a field, stage or rule | `/customise` |
+| a new report page | `/new-view` |
 
-If an ask fits nothing here, run the CLI directly (`npm run <cli> -- --help`) and then propose a new command for it.
+If an ask fits nothing here, run the CLI directly (`npm run seq -- help`) and then propose a new command for it.
 
 ## Hard rules
 
 - Never send email or messages from here. Draft to `drafts/`, a person sends.
 - Never delete records without an explicit yes in this session. Prefer marking closed or archived.
 - Never invent a record. If a name is ambiguous, list the candidates and ask.
+- Never draft, complete or suggest a step that is on hold. A hold means opted out, no consent recorded, a bounced address, or an Australian number on the Do Not Call Register. Say what clears it.
+- An opt-out is acted on the moment it is seen: run `/opt-out` the same turn.
+- Never record a consent basis without the operator naming the evidence.
 - The database is the source of truth. If the answer is not in it, say so.
 
 ## Where things live

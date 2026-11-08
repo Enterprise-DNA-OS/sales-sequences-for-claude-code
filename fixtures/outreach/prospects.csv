@@ -1,0 +1,5 @@
+Prospect ID,First Name,Last Name,Emails,Title,Company,Work Phone,Owner,Stage,Opted Out,Opted Out At,Last Touched At,Tags,Country
+1041,Anna,Kerr,anna.kerr@northfreight.example,Operations Manager,North Freight,09 555 0301,Aroha Ngata,Approaching,false,,2026-09-30,expo 2026,New Zealand
+1042,Davide,Rossi,davide.rossi@northfreight.example,Fleet Manager,North Freight,09 555 0302,Aroha Ngata,Cold,false,,,,New Zealand
+1043,Mia,Thompson,mia.thompson@sydneyexpress.example,"Director, Operations",Sydney Express Couriers,02 5550 0303,Josh Bennett,Replied,false,,2026-10-14,,Australia
+1044,Ryan,Patel,ryan.patel@sydneyexpress.example,Dispatch Lead,Sydney Express Couriers,02 5550 0304,new.rep@harbouranalytics.example,Not Interested,true,2026-10-02,2026-10-01,,Australia

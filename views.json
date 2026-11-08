@@ -1,14 +1,31 @@
 [
   {
     "name": "week",
-    "title": "This week",
-    "subtitle": "Sales Sequences for Claude Code: what needs attention, rendered by npm run view",
+    "title": "This week in outbound",
+    "subtitle": "Sales Sequences for Claude Code: what needs a person this week",
     "sections": [
-      {
-        "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
-      }
+      { "title": "Compliance", "note": "Checked against the rules in docs/compliance.md. Breaches first.", "sql": "select severity, rule, code, who, finding from compliance_checks order by array_position(array['breach','due','check']::text[], severity), rule, code" },
+      { "title": "Replies nobody has answered", "sql": "select prospect_code, prospect, account, owner, replied_on, outcome, note, days_waiting from replies_waiting order by days_waiting desc" },
+      { "title": "Needs attention", "note": "Overdue steps, holds, meetings, collisions, mailboxes and quiet accounts in one list.", "sql": "select area, code, who, issue from attention order by array_position(array['replies','holds','meetings','tasks','collisions','mailboxes','quiet accounts']::text[], area), code" }
+    ]
+  },
+  {
+    "name": "today",
+    "title": "Today's queue",
+    "subtitle": "Every step due, rep by rep, with anything on hold and why",
+    "sections": [
+      { "title": "Due and overdue", "sql": "select rep, enrolment, prospect, account, sequence_code, step, kind, due_on, days_late, coalesce(hold, '') as hold from task_queue order by rep, hold nulls first, days_late desc" },
+      { "title": "Mailbox load", "sql": "select name as rep, daily_email_limit, sent_today, emails_due, over_by from mailbox_load order by over_by desc" }
+    ]
+  },
+  {
+    "name": "sequences",
+    "title": "Sequence results",
+    "subtitle": "Which sequences and which steps earn replies and meetings",
+    "sections": [
+      { "title": "By sequence", "sql": "select code, name, enrolled, in_progress, replied, meetings, opted_out, bounced, reply_pct, meeting_pct from sequence_performance order by meeting_pct desc nulls last" },
+      { "title": "By step", "sql": "select sequence_code, step, kind, what, sent, replies, positive, opt_outs from step_performance order by sequence_code, step" },
+      { "title": "Rep activity, last seven days", "sql": "select name, emails, calls, connects, linkedin, replies, meetings_booked, due_now, overdue from rep_activity order by name" }
     ]
   }
 ]

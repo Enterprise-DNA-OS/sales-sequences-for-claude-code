@@ -1,24 +1,30 @@
 # Why there is no front end
 
-Outreach is a database with a subscription. The tables underneath it are ordinary: a few entities, a few relationships, a handful of workflows you repeat every week. What you pay for is the layer on top that lets people who do not write SQL get at those tables. Screens, filters, dashboards, forms.
+A sales engagement platform is a database with a subscription. Underneath are ordinary records: prospects, accounts, sequences and their steps, who is in which sequence and at which step, every touch out and every reply in, opt-outs and meetings. What a team pays for is mostly the layer on top: the task list, the sequence builder, the dashboards, and the plumbing that sends email from each rep's mailbox.
 
-That layer used to be the whole product, because talking to a database was hard. It is not hard any more. Open this folder in Claude Code, describe what you want, and it writes the query, runs it, and explains the answer. Ask a question the dashboard never had a chart for and you still get an answer.
+The records part no longer needs a screen. Open this folder in Claude Code, ask "who replied this week and has not heard back?", and it runs the query and answers. Ask a question no dashboard was built for ("which step draws the opt-outs?") and you still get an answer.
 
 ## What you gain
 
-- **Better answers.** A dashboard shows what the vendor decided to chart. Here you ask your own question, in your own words, and get it answered against your own data.
-- **No seats.** Everyone who needs to look can look. The bill does not grow with headcount.
-- **Your data in your Postgres.** Plain tables. Back them up, query them from anything, leave any time. There is no export step because there is nothing to leave.
-- **A process that matches you.** When your way of working changes, you add a command. You do not wait for a feature request to clear.
+- **Answers to your own questions.** The sales lead asks about replies and meetings, a rep asks for today's queue, the owner asks whether opt-outs are being honoured, each in plain words.
+- **No seats.** Every rep, manager and founder can look. The bill does not grow with headcount.
+- **Your records in a database you own.** Plain Postgres tables. Back them up, query them from anything, leave any time.
+- **Rules that hold the line.** A step for someone who opted out, has no consent recorded, bounced, or sits on the Do Not Call Register is held, with the reason, before anyone touches it.
 
-## What you give up
+## What a screen gives that this does not
 
-- **A visual board.** Stages are a table you ask about, not cards you drag.
-- **A phone app.** It runs where Claude Code runs.
-- **A vendor help desk.** This is open source. Enterprise DNA supports the installed version for businesses that want someone to call.
+Be honest about it before you switch:
+
+- **Sending.** This base drafts every email with merge fields, sender details and an unsubscribe line. The rep sends it from their own mailbox and marks the step done. Automatic sending, open tracking and click tracking need a connection to your mail system.
+- **A dialler.** Calls are logged by command. Click-to-call, recording and call transcripts need a phone system.
+- **A rep's all-day screen.** Some reps want a list they click through. Here the list is `/today`.
+- **A CRM sync.** This base is the prospecting record. Pushing meetings and opportunities into your CRM is a connection to build.
+- **A vendor help desk.** This is open source. Enterprise DNA supports the installed version for teams that want someone to call.
+
+Enterprise DNA builds the pieces a team actually needs (sending from your mailboxes, a rep's queue screen, the CRM sync) on top of the same database, so the records stay yours.
 
 ## Who this fits
 
-Small teams who already use Claude Code, or who would rather learn to ask than learn another interface. If your team needs a screen to look at all day, keep Outreach. If you need the answers more than the screens, this is cheaper, faster and yours.
+Sales teams of two to fifty who sell to businesses, run a handful of sequences, and want the answers more than the screens.
 
 Installed and run for you: https://enterprisedna.co/omni/instead-of/outreach

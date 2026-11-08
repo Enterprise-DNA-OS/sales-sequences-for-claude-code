@@ -1,11 +1,33 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
-    "file": "name",
+    "name": "opt-out-register",
+    "title": "Opt-out register",
+    "for_each": "select 'register' as id, (select business_name from setting_values) || ' opt-out register ' || current_date::text as label",
+    "file": "label",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      { "title": "Every opt-out and whether it was honoured", "note": "Opt-outs must take effect within 5 working days (NZ Unsolicited Electronic Messages Act 2007 s 9(2); AU Spam Act 2003 Schedule 2 clause 6). Keep this as your evidence.", "sql": "select code, name, email, account, country, opted_out_on, opt_out_channel, must_stop_by, last_email_on, status from opt_out_register where $1::text is not null order by opted_out_on desc" },
+      { "title": "Consent on file for people in a sequence", "sql": "select p.code, p.name, p.country, coalesce(p.consent_basis, 'none recorded') as consent_basis, p.consent_note from prospects p join enrolments e on e.prospect_id = p.id and e.status in ('active', 'paused') where $1::text is not null order by p.consent_basis nulls first, p.code" }
+    ]
+  },
+  {
+    "name": "rep-scorecard",
+    "title": "Weekly rep scorecard",
+    "for_each": "select r.id, r.name || ' week to ' || current_date::text as label from reps r where r.active order by r.code",
+    "file": "label",
+    "sections": [
+      { "title": "Last seven days", "layout": "record", "sql": "select a.name as rep, a.emails, a.calls, a.connects, a.linkedin, a.replies, a.meetings_booked, a.due_now, a.overdue from rep_activity a join reps r on r.code = a.code where r.id = $1::uuid" },
+      { "title": "Replies waiting on this rep", "sql": "select w.prospect, w.account, w.replied_on, w.note, w.days_waiting from replies_waiting w join reps r on r.name = w.owner where r.id = $1::uuid order by w.days_waiting desc" },
+      { "title": "Meetings needing an update", "sql": "select m.prospect, m.account, m.meeting_on, m.status, m.issue from meeting_follow_up m join reps r on r.name = m.rep where r.id = $1::uuid and m.issue is not null" }
+    ]
+  },
+  {
+    "name": "sequence-playbook",
+    "title": "Sequence playbook",
+    "for_each": "select id, code || ' ' || name as label from sequences where active order by code",
+    "file": "label",
+    "sections": [
+      { "title": "Results", "layout": "record", "sql": "select p.name, s.purpose, p.enrolled, p.reply_pct, p.meeting_pct, p.opted_out from sequence_performance p join sequences s on s.code = p.code where s.id = $1::uuid" },
+      { "title": "The steps", "sql": "select st.position as step, st.kind, st.wait_days, coalesce(st.subject, '') as subject, coalesce(st.body, st.instructions) as content from sequence_steps st where st.sequence_id = $1::uuid order by st.position" }
     ]
   }
 ]

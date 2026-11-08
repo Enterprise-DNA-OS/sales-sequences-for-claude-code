@@ -38,48 +38,110 @@
 
 ## What is this
 
-Sales Sequences for Claude Code does the job you pay Outreach for, as a Postgres database and a set of agent commands. There is no web front end. You open the folder in [Claude Code](https://claude.com/claude-code) (or Codex, OpenCode, Cursor: see `AGENTS.md`) and ask for what you want in plain language. It runs the right query, and it can answer questions the Outreach dashboard cannot.
+Sales Sequences for Claude Code does the outbound work a sales team pays Outreach for, as a Postgres database and a set of agent commands: prospects and accounts, multi-step sequences of emails, calls, LinkedIn touches and tasks, each rep's daily queue, every touch and reply, opt-outs, meetings, and the results by sequence and by step. There is no web front end. You open the folder in [Claude Code](https://claude.com/claude-code) (or Codex, OpenCode, Cursor: see `AGENTS.md`) and ask in plain language.
 
-<!-- TODO(author): the annual bill. One sentence: what a 10 to 50 person business typically pays Outreach per year, all in, with a source. -->
+Outreach quotes privately on annual per-seat contracts, with calling and other modules as add-ons. Buyer-report sites estimate the entry plan near US$100 a user a month; that is an estimate, not a vendor price ([research](docs/research.md)). Bring your own invoice to compare.
 
-Want the same thing with a web front end, or built on a different stack? That is a customisation, and it is exactly what Enterprise DNA does: [book a call](https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=outreach).
+It is for business-to-business sales teams in New Zealand and Australia: the reps who work the queue, the sales lead who runs the Monday review, and the owner who needs to know opt-outs are honoured. Every step for someone who opted out, has no consent recorded, bounced, or sits on the Australian Do Not Call Register is held before anyone touches it.
 
-<!-- TODO(author): two or three sentences on what this specific product covers and who it is for. -->
+Want sending from your own mailboxes, a queue screen for reps, or a sync to your CRM? That is a customisation, and it is exactly what Enterprise DNA does: [book a call](https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=outreach).
 
 ## Why no front end
 
 - The front end was only ever there because the database was hard to talk to. That is no longer true.
-- Your data sits in plain Postgres tables you own. Any tool can read them. No export, no lock-in.
-- No seats, no tiers, no add-ons. Read [docs/why-no-front-end.md](docs/why-no-front-end.md) for the honest trade-offs too.
+- Your records sit in plain Postgres tables you own. Any tool can read them. No lock-in.
+- No seats. Read [docs/why-no-front-end.md](docs/why-no-front-end.md) for what a screen and a sending engine still do better.
 
 ## Quick start
 
-Sixty seconds, no database install (an embedded Postgres runs inside Node):
+Sixty seconds, no database install (an embedded Postgres runs inside Node 20 or later):
 
 ```bash
 git clone https://github.com/Enterprise-DNA-OS/sales-sequences-for-claude-code.git
 cd sales-sequences-for-claude-code
 npm install
 npm run demo
+npm run seq -- tasks
 ```
 
-Then open the folder in Claude Code and type a slash command. <!-- TODO(author): name the first command to try. -->
+Then open the folder in Claude Code and type `/today`.
+
+The demo is Harbour Analytics, a fictional Auckland software company with three people selling to transport firms in New Zealand and Australia: twelve accounts, fifteen prospects, three sequences, and deliberately a positive reply nobody has answered for three days, an opt-out still in a sequence and emailed after the 5 working day limit, an email due with no consent recorded, a rep with no sender details, an Australian number on the Do Not Call Register, a no-show with no follow-up, two reps working the same accounts and a tier A account gone quiet. Seed only a disposable demo database.
 
 ### Use it with your own Postgres or Supabase
 
-Copy `.env.example` to `.env`, set `DATABASE_URL`, then `npm run migrate`. Same commands, shared data, no per-seat fee.
+Copy `.env.example` to `.env`, set `DATABASE_URL`, then `npm run migrate`. Same commands, shared records, no per-seat fee.
 
-## The commands
-
-<!-- TODO(author): a table of the slash commands in .claude/commands and what each one does. -->
+## The daily and weekly rituals
 
 | Command | What it does |
 |---|---|
-| `/...` | ... |
+| `/today` | each rep's queue: steps due and overdue, held steps with the reason |
+| `/replies` | replies nobody has answered, oldest first |
+| `/attention` | replies, holds, overdue steps, meetings, collisions, mailboxes and quiet accounts in one list |
+| `/weekly-review` | the Monday review: compliance, replies, each rep's week, sequence results, quiet accounts |
+| `/compliance` | consent, opt-outs within 5 working days, sender details and the Do Not Call Register, with sources |
+| `/draft-step` | the due email drafted with merge fields, sender details and an unsubscribe line |
+| `/complete-step` | mark a step done and move to the next |
+| `/log` | a reply, call back or message; a reply stops the sequence |
+| `/opt-out` | stop every sequence today and record it in the register |
+| `/consent` | record why you may email someone, with the evidence |
+| `/enrol` | put someone in a sequence; refuses opt-outs and collisions |
+| `/sequences`, `/sequence` | which sequences and which steps earn replies and meetings |
+| `/new-sequence` | write a sequence from a brief, steps approved before they are saved |
+| `/meetings`, `/book-meeting` | meetings booked, held, missed, and the follow-up owed |
+| `/rep-activity` | each rep's last seven days and mailbox load |
+| `/collisions` | accounts two reps are working at once |
+| `/accounts` | target accounts and the quiet ones nobody is working |
+| `/prospects`, `/prospect` | the people, and one person's full history |
+| `/draft-reply` | a reply drafted from what they said |
+| `/import`, `/export` | bring an Outreach export in; take everything out as CSV |
+| `/activity` | who changed what |
+| `/customise`, `/new-view` | change a field, a rule or a report in plain language |
+
+41 CLI commands sit underneath: [docs/operations.md](docs/operations.md).
+
+## Ten questions you can answer today
+
+Each runs against the demo records now. No claim is made that Outreach cannot answer them.
+
+1. Which replies has nobody answered yet, and how long have they waited? `replies`
+2. Is anyone who opted out still in a sequence, and has anyone been emailed after the 5 working day limit? `compliance`, `opt-outs`
+3. Who is about to get an email with no consent on file? `tasks`
+4. Which steps are overdue today, rep by rep? `tasks`
+5. Which sequence books the most meetings per hundred people enrolled? `sequences`
+6. Which step gets the replies, and which step draws the opt-outs? `steps`
+7. Which accounts have two reps reaching out at once? `collisions`
+8. Which tier A accounts have gone quiet with nobody in a sequence? `quiet-accounts`
+9. Which meetings were no-shows with no follow-up, or held with no next step? `meetings`
+10. Whose mailbox is over its daily limit today? `mailboxes`
 
 ## Instead of Outreach
 
-<!-- TODO(author): how to bring data across from Outreach; link docs/replace-outreach.md -->
+Export prospects (and accounts, if you want them) from Outreach as CSV, then:
+
+```bash
+npm run seq -- import outreach --dir=imports/outreach --dry-run
+```
+
+The dry run saves nothing. The real run is all or nothing, keeps every original row, skips unchanged repeats and stops on a changed one. Opt-outs come across into the register. Outreach holds no consent basis, so email steps for imported people hold until you record one. Full guide, including what does not carry over: [docs/replace-outreach.md](docs/replace-outreach.md).
+
+## Documents and views
+
+Edit `brand.json` for your business name, logo and colours. `npm run docs` writes the opt-out register with the consent on file, a weekly scorecard for each rep and a playbook for each sequence. `npm run view` writes the week, today's queue and sequence results pages. They hold personal contact details: keep them private.
+
+## Your first hour: ten things to ask for
+
+1. Put our name and colours on the views and documents.
+2. Show me every reply waiting, and draft answers to the positive ones.
+3. Take everyone who opted out out of every sequence, and show me the register.
+4. Who is in a sequence with no consent recorded? Walk me through them.
+5. Add my sender details so every draft says who sent it.
+6. Write a three-step sequence for operations managers who downloaded our guide.
+7. Enrol the prospects at our quiet tier A accounts into it.
+8. Which step of our cold sequence should we rewrite?
+9. Our collision window is 30 days, not 14. Change it.
+10. Add a "lead source" report: meetings booked by where the prospect came from.
 
 ## Architecture
 
@@ -92,7 +154,9 @@ sales-sequences-for-claude-code/
   scripts/lib/db.mjs        one adapter: DATABASE_URL (pg) or embedded PGlite
   supabase/migrations/      plain SQL schema
   supabase/seed.sql         demo data
-  docs/                     the thesis and the migration guide
+  fixtures/outreach/        a sample Outreach export the tests import
+  views.json, documents.json  the views and documents, in your brand
+  docs/                     compliance, operations, research and the migration guide
 ```
 
 ## Built for coding agents
