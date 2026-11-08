@@ -40,7 +40,7 @@
 
 Sales Sequences for Claude Code does the outbound work a sales team pays Outreach for, as a Postgres database and a set of agent commands: prospects and accounts, multi-step sequences of emails, calls, LinkedIn touches and tasks, each rep's daily queue, every touch and reply, opt-outs, meetings, and the results by sequence and by step. There is no web front end. You open the folder in [Claude Code](https://claude.com/claude-code) (or Codex, OpenCode, Cursor: see `AGENTS.md`) and ask in plain language.
 
-Outreach quotes privately on annual per-seat contracts, with calling and other modules as add-ons. Buyer-report sites estimate the entry plan near US$100 a user a month; that is an estimate, not a vendor price ([research](docs/research.md)). Bring your own invoice to compare.
+Outreach prices on request: a seat for each user plus usage credits, with plans from Amplify Essentials to Amplify Pro ([pricing page](https://www.outreach.ai/pricing)). Buyer-report sites estimate the entry plan near US$100 a user a month; that is an estimate, not a vendor price ([research](docs/research.md)). Bring your own invoice to compare.
 
 It is for business-to-business sales teams in New Zealand and Australia: the reps who work the queue, the sales lead who runs the Monday review, and the owner who needs to know opt-outs are honoured. Every step for someone who opted out, has no consent recorded, bounced, or sits on the Australian Do Not Call Register is held before anyone touches it.
 
